@@ -36,6 +36,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
     "https://spotter-ai-assessment-backend.onrender.com",
+    "https://spotter-ai-assessment-frontend.vercel.app",
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -51,6 +52,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "spotter-ai-assessment-backend.onrender.com",
+    "spotter-ai-assessment-frontend.vercel.app",
 ]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
