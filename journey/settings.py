@@ -35,7 +35,7 @@ CORS_ALLOW_METHODS = ["GET", "POST"]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://spotter-ai-assessment-frontend.vercel.app",
+    "https://spotter-ai-assessment-backend.onrender.com",
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -50,8 +50,9 @@ DEBUG = True if os.getenv("ENVIRONMENT") == "development" else False
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "https://spotter-ai-assessment-frontend.vercel.app",
+    "spotter-ai-assessment-backend.onrender.com",
 ]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Application definition
