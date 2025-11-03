@@ -11,6 +11,7 @@ def custom_exception_handler(exc, context):
     message = "Internal Server Error"
     status_code = 500
 
+    print(exc)
     print(response)
     if response is not None:
         errors = response.data
