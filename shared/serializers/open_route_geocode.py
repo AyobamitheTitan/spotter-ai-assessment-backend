@@ -3,25 +3,25 @@ from rest_framework import serializers
 
 
 class GeometrySerializer(serializers.Serializer):
-    type = serializers.CharField()
+    type = serializers.CharField(required=False)
     coordinates = serializers.ListField(child=serializers.FloatField())
 
 
 class PropertiesSerializer(serializers.Serializer):
-    id = serializers.CharField()
-    gid = serializers.CharField()
-    layer = serializers.CharField()
-    source = serializers.CharField()
-    source_id = serializers.CharField()
-    name = serializers.CharField()
+    id = serializers.CharField(required=False)
+    gid = serializers.CharField(required=False)
+    layer = serializers.CharField(required=False)
+    source = serializers.CharField(required=False)
+    source_id = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
     confidence = serializers.FloatField(required=False)
     match_type = serializers.CharField(required=False)
     accuracy = serializers.CharField(required=False)
-    country = serializers.CharField()
-    country_gid = serializers.CharField()
-    country_a = serializers.CharField()
-    region = serializers.CharField()
-    region_gid = serializers.CharField()
+    country = serializers.CharField(required=False)
+    country_gid = serializers.CharField(required=False)
+    country_a = serializers.CharField(required=False)
+    region = serializers.CharField(required=False)
+    region_gid = serializers.CharField(required=False)
     region_a = serializers.CharField(required=False)
     county = serializers.CharField(required=False)
     county_gid = serializers.CharField(required=False)
@@ -30,24 +30,24 @@ class PropertiesSerializer(serializers.Serializer):
     locality_gid = serializers.CharField(required=False)
     neighbourhood = serializers.CharField(required=False)
     neighbourhood_gid = serializers.CharField(required=False)
-    continent = serializers.CharField()
-    continent_gid = serializers.CharField()
-    label = serializers.CharField()
+    continent = serializers.CharField(required=False)
+    continent_gid = serializers.CharField(required=False)
+    label = serializers.CharField(required=False)
     bbox = serializers.ListField(child=serializers.FloatField(), required=False)
 
 
 class FeatureSerializer(serializers.Serializer):
-    type = serializers.CharField()
+    type = serializers.CharField(required=False)
     geometry = GeometrySerializer()
     properties = PropertiesSerializer()
     bbox = serializers.ListField(child=serializers.FloatField(), required=False)
 
 
 class QueryLangSerializer(serializers.Serializer):
-    name = serializers.CharField()
-    iso6391 = serializers.CharField()
-    iso6393 = serializers.CharField()
-    via = serializers.CharField()
+    name = serializers.CharField(required=False)
+    iso6391 = serializers.CharField(required=False)
+    iso6393 = serializers.CharField(required=False)
+    via = serializers.CharField(required=False)
     defaulted = serializers.BooleanField()
 
 
@@ -60,32 +60,32 @@ class ParsedTextSerializer(serializers.Serializer):
 class QuerySerializer(serializers.Serializer):
     text = serializers.CharField()
     size = serializers.IntegerField()
-    layers = serializers.ListField(child=serializers.CharField())
-    private = serializers.BooleanField()
+    layers = serializers.ListField(child=serializers.CharField(), required=False)
+    private = serializers.BooleanField(required=False)
     lang = QueryLangSerializer()
-    querySize = serializers.IntegerField()
-    parser = serializers.CharField()
+    querySize = serializers.IntegerField(required=False)
+    parser = serializers.CharField(required=False)
     parsed_text = ParsedTextSerializer()
 
 
 class EngineSerializer(serializers.Serializer):
-    name = serializers.CharField()
-    author = serializers.CharField()
-    version = serializers.CharField()
+    name = serializers.CharField(required=False)
+    author = serializers.CharField(required=False)
+    version = serializers.CharField(required=False)
 
 
 class GeocodingSerializer(serializers.Serializer):
-    version = serializers.CharField()
-    attribution = serializers.CharField()
+    version = serializers.CharField(required=False)
+    attribution = serializers.CharField(required=False)
     query = QuerySerializer()
     warnings = serializers.ListField(child=serializers.CharField())
     engine = EngineSerializer()
-    timestamp = serializers.FloatField()
+    timestamp = serializers.FloatField(required=False)
 
 
 class OpenRouteServiceGeocodeResponseSerializer(serializers.Serializer):
     geocoding = GeocodingSerializer()
-    type = serializers.CharField()
+    type = serializers.CharField(required=False)
     features = FeatureSerializer(many=True)
     bbox = serializers.ListField(child=serializers.FloatField())
 
@@ -97,7 +97,5 @@ class OpenRouteServiceGeocodeResponseSerializer(serializers.Serializer):
     def get_main_coordinates(self) -> None | Tuple[int, int]:
         """Return the coordinates of the most confident feature."""
         features = self.validated_data.get("features", [])
-        main_feature = next(
-            (f for f in features), None
-        )
+        main_feature = next((f for f in features), None)
         return main_feature["geometry"]["coordinates"] if main_feature else None
